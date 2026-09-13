@@ -113,13 +113,13 @@ def check_shadow_dom(ev, url, findings):
     if any_open_shadow and not dsd_present:
         findings.append(finding(
             title="Site uses Shadow DOM but ships no Declarative Shadow DOM anywhere",
-            severity="medium",
+            severity="low",
             evidence=(f"At least one custom element on {url} has an open shadow root, but zero "
                       "`<template shadowrootmode>` markers were found in the raw (pre-JS) HTML — shadow roots "
                       "are being attached imperatively via script, so a non-JS-executing crawler receives none "
                       "of this content regardless of open/closed mode."),
             action_summary="Migrate fact-bearing Web Components to Declarative Shadow DOM so their content exists in the wire bytes, not just after a script runs.",
-            action_priority="medium",
+            action_priority="low",
             beyond_defect=True,
         ))
 
@@ -149,7 +149,7 @@ def check_canvas(ev, url, findings):
         else:
             findings.append(finding(
                 title=f"Canvas #{idx} has no text/accessibility fallback",
-                severity="medium",
+                severity="low",
                 evidence=(f"Canvas element (index {idx}, {c.get('bbox_area')}px², context {c.get('context_type')}) "
                           "has no fallback text and no accessible name or description."),
                 action_summary="Add an aria-label/aria-describedby or in-DOM fallback content describing what this canvas shows, even if it turns out to be decorative — this makes the intent explicit instead of ambiguous.",

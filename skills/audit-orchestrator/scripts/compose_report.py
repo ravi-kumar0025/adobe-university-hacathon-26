@@ -15,10 +15,17 @@ from urllib.parse import urlparse
 SEVERITY_RANK = {"critical": 0, "high": 1, "medium": 2, "low": 3}
 
 
+def clampSev(f):
+    return "low" if f.get("beyond_defect") else f.get("severity")
+
+
 def compose(url, findings_lists):
     all_findings = []
     for lst in findings_lists:
         all_findings.extend(lst)
+
+    for f in all_findings:
+        f["severity"] = clampSev(f)
 
     def sort_key(f):
         return (SEVERITY_RANK.get(f.get("severity"), 9), 1 if f.get("beyond_defect") else 0)
